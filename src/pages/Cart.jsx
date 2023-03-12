@@ -2,13 +2,16 @@ import React from 'react'
 import Navcart from '../components/Navcart'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { removeItem } from '../redux/cartSlice'
+import { removeItem,removeAllItem } from '../redux/cartSlice'
+import {TbTrashX,TbError404} from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Cart() {
-    const cart = useSelector((state) => state.cart)
+    const cart = useSelector((state) => state.cart);
+    const navigate = useNavigate();
+    let total = 0;
     const getTotal = () => {
-        let total = 0;
         cart.forEach((item) => {
             total += item.price * item.quantity;
         })
@@ -16,14 +19,21 @@ export default function Cart() {
     }
     const dispatch = useDispatch()
 
+    const handleCheckout = () => {
+        alert('Checkout Success');
+        total = 0;
+        dispatch(removeAllItem());
+        navigate('/');
+    }
+
+
   return (
     <div className='bg-slate-300 w-full h-screen'>
         <div className='container mx-auto max-w-[375px] border-solid bg-white h-screen flex flex-col p-4'>
             <Navcart />
-            <hr />
             {cart?.map((item, index) => (
-                <div key={index} className='flex justify-between items-center'>
-                    <div className='flex items-center'>
+                <div key={index} className='flex justify-between items-center border-b-2 border-black-500 my-2'>
+                    <div className='flex items-center my-2'>
                         <div className='flex flex-col'>
                             <h1 className='text-lg font-bold'>{item.name}</h1>
                             <span className='text-sm'>Rp. {item.price}</span>
@@ -31,13 +41,22 @@ export default function Cart() {
                         </div>
                     </div>
                     <div className='flex items-center'>
-                        <button onClick={()=> dispatch(removeItem(item.id))} className='bg-red-500 text-white rounded-full w-8 h-8'>x</button>
+                        <button onClick={()=> dispatch(removeItem(item.id))} className=''>
+                        <TbTrashX size="24px" color='black' />
+                        </button>
                     </div>
                 </div>
-
               ))}
-              <h1>total: {getTotal()}</h1>
-            <hr />
+              { cart.length === 0 ? (<div className='flex flex-col items-center my-12'>
+                <TbError404 size="64px" color='black' />
+                <h1 className='text-center font-bold text-2xl'>Your cart is empty</h1>
+              </div>) : (
+                <>
+                  <h1 className='font-bold text-xl'>Total: {getTotal()}</h1>
+                  <button onClick={handleCheckout} className='bg-green-600 text-white w-full my-2 h-8 font-bold'>Checkout</button>
+                  <hr />
+                </>
+              )}
         </div>
     </div>
   )
