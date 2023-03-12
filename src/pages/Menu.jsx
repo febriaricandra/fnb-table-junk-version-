@@ -14,9 +14,11 @@ export default function Menu() {
   return (
     <div className='bg-slate-300 w-full h-screen'>
         <div className='container mx-auto max-w-[375px] border-solid bg-white h-screen flex flex-col'>
-            <div>
-            <Navbar />
+            <div className='relative z-10'>
+                <div className='fixed bg-white w-full'>
+                <Navbar />
             <Tabs handleFood={handleFood} handleDrink={handleDrink} activeTab={activeTab} />
+                </div>
             </div>
             <div className='overflow-y-auto'>
             {productData.map((product) => {
