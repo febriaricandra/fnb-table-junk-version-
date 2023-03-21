@@ -2,14 +2,15 @@ import React from 'react'
 import Navcart from '../components/Navcart'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { removeItem,removeAllItem } from '../redux/cartSlice'
-import {TbTrashX,TbError404} from 'react-icons/tb'
+import { removeItem } from '../redux/cartSlice'
 import { useNavigate } from 'react-router-dom'
+import {TbTrashX,TbError404} from 'react-icons/tb'
 
 
 export default function Cart() {
     const cart = useSelector((state) => state.cart);
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     let total = 0;
     const getTotal = () => {
         cart.forEach((item) => {
@@ -17,13 +18,10 @@ export default function Cart() {
         })
         return total;
     }
-    const dispatch = useDispatch()
 
     const handleCheckout = () => {
-        alert('Checkout Success');
-        total = 0;
-        dispatch(removeAllItem());
-        navigate('/');
+        navigate('/order');
+        localStorage.setItem('total', total);
     }
 
 

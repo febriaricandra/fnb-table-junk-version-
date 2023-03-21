@@ -13,7 +13,7 @@ export default function Navbar() {
         <Link to="/cart">
           <IoCartOutline size="32px" className="ml-auto" />
         </Link>
-        {cart.length > 0 ? <span className="w-2 h-2 bg-red-600 z-1 rounded-full absolute -top-1 right-0">
+        {cart.length > 0 ? <span className="w-2 h-2 bg-red-600 z-1 rounded-full absolute -top-1 right-0 animate-ping">
         </span> : null}
       </div>
     </header>

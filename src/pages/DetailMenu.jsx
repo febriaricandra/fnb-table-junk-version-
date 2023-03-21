@@ -4,14 +4,12 @@ import { useParams } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
 import { useDispatch } from "react-redux";
 import { addItem } from "../redux/cartSlice";
-import { useNavigate } from "react-router-dom";
 
 export default function DetailMenu() {
   const { id } = useParams();
   const products = productData.find((product) => product.id === parseInt(id));
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -26,7 +24,6 @@ export default function DetailMenu() {
   };
   const handleAddToCart = (e) => {
     e.preventDefault();
-    navigate("/cart");
     dispatch(addItem({ ...products, quantity }));
   };
 
