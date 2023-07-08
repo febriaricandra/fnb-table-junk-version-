@@ -1,11 +1,12 @@
 import React from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import { removeAllItem } from "../redux/cartSlice";
 
 
 export default function Order() {
   const cart = useSelector((state) => state.cart);
+  const { menuId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const total = localStorage.getItem("total");
@@ -13,7 +14,7 @@ export default function Order() {
     e.preventDefault();
     localStorage.clear();
     dispatch(removeAllItem());
-    navigate("/");
+    navigate(`/${menuId}/menu`);
     };
 
   return (
@@ -26,7 +27,7 @@ export default function Order() {
               <div class="mx-auto pt-[44px] space-y-8 px-4 lg:px-8">
                 <div class="flex items-center gap-4">
                   <span class="h-10 w-10 rounded-full bg-blue-700"></span>
-                  <h2 class="font-medium text-gray-900">Meja A14</h2>
+                  <h2 class="font-medium text-gray-900">Meja {menuId}</h2>
                 </div>
                 <div>
                   <p class="text-2xl font-medium tracking-tight text-gray-900">

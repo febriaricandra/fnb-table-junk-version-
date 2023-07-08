@@ -1,27 +1,41 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import Menu from "./pages/Menu";
 import Cart from "./pages/Cart";
 import DetailMenu from "./pages/DetailMenu";
 import Error from "./pages/Error";
-import Index from "./pages/admin/Index";
 import Order from "./pages/Order";
 import Login from "./pages/Login";
-import Meja from "./pages/admin/Meja";
+import Dashboard from "./pages/admin/Dashboard";
+import Layout from "./pages/admin/Layout";
+import Orders from "./pages/admin/Orders";
+import Reviews from "./pages/admin/Reviews";
+import Barcode from "./pages/admin/Barcode";
+import FormProduct from "./pages/admin/FormProduct";
+// import Profit from "./pages/Profit";
 // import { AuthProvider } from "./context/UserContext";
-
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Menu />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/product/:id" element={<DetailMenu />} />
-      <Route path="*" element={<Error />} />
-      <Route path="/index" element={<Index />} />
-      <Route path="/order" element={<Order />} />
+      <Route path="/" element={<Outlet />}>
+        <Route index path=":menuId/menu" element={<Menu />} exact />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:id" element={<DetailMenu />} />
+        <Route path="/menu/order" element={<Order />} />
+      </Route>
+      <Route path="/admin" element={<Layout />}>
+        <Route index element={<Dashboard />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="profit" element={<Orders />} />
+        <Route path="reviews" element={<Reviews />} />
+        <Route path="barcode" element={<Barcode />} />
+        <Route path="add-product" element={<FormProduct />} />
+      </Route>
       <Route path="/login" element={<Login />} />
-      <Route path="/index/meja" element={<Meja />} />
+
+      {/* Tambahkan route untuk halaman error 404 */}
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 }

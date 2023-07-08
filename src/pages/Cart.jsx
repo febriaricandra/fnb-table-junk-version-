@@ -14,13 +14,14 @@ export default function Cart() {
     let total = 0;
     const getTotal = () => {
         cart.forEach((item) => {
-            total += item.price * item.quantity;
+          //parse to int item.harga
+          total += parseInt(item.harga) * item.quantity;
         })
         return total;
     }
 
     const handleCheckout = () => {
-        navigate('/order');
+        navigate('/menu/order');
         localStorage.setItem('total', total);
     }
 
@@ -33,8 +34,8 @@ export default function Cart() {
                 <div key={index} className='flex justify-between items-center border-b-2 border-black-500 my-2'>
                     <div className='flex items-center my-2'>
                         <div className='flex flex-col'>
-                            <h1 className='text-lg font-bold'>{item.name}</h1>
-                            <span className='text-sm'>Rp. {item.price}</span>
+                            <h1 className='text-lg font-bold'>{item.nama}</h1>
+                            <span className='text-sm'>Rp. {item.harga}</span>
                             <span className='text-sm'>Qty: {item.quantity}</span>
                         </div>
                     </div>

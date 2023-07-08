@@ -1,5 +1,4 @@
-import React,{useState} from "react";
-import { productData } from "../context/data";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
 import { useDispatch } from "react-redux";
@@ -7,7 +6,18 @@ import { addItem } from "../redux/cartSlice";
 
 export default function DetailMenu() {
   const { id } = useParams();
-  const products = productData.find((product) => product.id === parseInt(id));
+  const [products, setProducts] = useState([]);
+  const getProductData = async () => {
+    const response = await fetch(`http://127.0.0.1:8000/api/menu/${id}`);
+    const data = await response.json();
+    setProducts(data.data);
+  };
+
+  // eslint-disable-next-line
+  useEffect(() => {
+    getProductData();
+  }, []);
+
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
@@ -36,7 +46,7 @@ export default function DetailMenu() {
             <div className="">
               <img
                 alt="Les Paul"
-                src={products.image}
+                src={`http://127.0.0.1:8000/api/menu/${products.gambar}`}
                 className=" w-full rounded-xl object-cover"
               />
             </div>
@@ -45,21 +55,16 @@ export default function DetailMenu() {
               <div className="mt-8 flex flex-col">
                 <div className="max-w-[35ch] space-y-2">
                   <h1 className="text-xl font-bold sm:text-2xl">
-                    {products.name}
+                    {products.nama}
                   </h1>
                 </div>
-                <span className="opacity-50">{products.category}</span>
-                <p className="text-lg font-bold">${products.price}</p>
+                <span className="opacity-50">{products.kategori}</span>
+                <p className="text-lg font-bold">${products.harga}</p>
               </div>
 
               <div className="mt-4">
                 <div className="prose max-w-none">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ipsa veniam dicta beatae eos ex error culpa delectus rem
-                    tenetur, architecto quam nesciunt, dolor veritatis nisi
-                    minus inventore, rerum at recusandae?
-                  </p>
+                  <p>{products.deskripsi}</p>
                 </div>
               </div>
 
@@ -73,7 +78,9 @@ export default function DetailMenu() {
                       +
                     </button>
                     <div className="p-2">
-                        <span className="" id="quantity">{quantity}</span>
+                      <span className="" id="quantity">
+                        {quantity}
+                      </span>
                     </div>
                     <button
                       onClick={handleMinus}
