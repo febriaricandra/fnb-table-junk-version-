@@ -5,7 +5,7 @@ import {Card, Text, Metric} from '@tremor/react'
 export default function Index() {
   const [data, setData] = useState(null);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/menu').then((res) => res.json()).then((data) => setData(data))
+    fetch('https://harjos.draf.app/api/menu').then((res) => res.json()).then((data) => setData(data))
   }, [])
   console.log(data);
 

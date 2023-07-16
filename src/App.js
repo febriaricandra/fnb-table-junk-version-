@@ -10,7 +10,6 @@ import Dashboard from "./pages/admin/Dashboard";
 import Layout from "./pages/admin/Layout";
 import Orders from "./pages/admin/Orders";
 import Reviews from "./pages/admin/Reviews";
-import Barcode from "./pages/admin/Barcode";
 import FormProduct from "./pages/admin/FormProduct";
 import FormEdit from "./pages/admin/FormEdit";
 import Meja from "./pages/admin/Meja";
@@ -23,7 +22,7 @@ import Pivot from "./pages/Pivot";
 function App() {
   const [meja, setMeja] = React.useState([]);
   const getMeja = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/meja");
+    const response = await fetch("https://harjos.draf.app/api/meja");
     const data = await response.json();
     setMeja(data.data);
   };

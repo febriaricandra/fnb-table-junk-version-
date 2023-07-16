@@ -15,7 +15,7 @@ export default function Menu() {
     const handleDrink = () => setActiveTab('Minuman')
     const [productData, setProductData] = React.useState([])
     const getProductData = async () => {
-        const response = await fetch('http://127.0.0.1:8000/api/menu')
+        const response = await fetch('https://harjos.draf.app/api/menu')
         const data = await response.json()
         localStorage.setItem('menuId', nomorMeja);
         setProductData(data.data)

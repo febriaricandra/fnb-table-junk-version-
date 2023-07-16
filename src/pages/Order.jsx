@@ -8,7 +8,7 @@ export default function Order() {
   const cart = useSelector((state) => state.cart);
   const [nama, setNama] = React.useState("");
   const [status, setStatus] = React.useState("pending");
-  const url = "http://127.0.0.1:8000/api/orders";
+  const url = "https://harjos.draf.app/api/orders";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const menuId = localStorage.getItem("menuId");
@@ -66,7 +66,7 @@ export default function Order() {
                     {cart.map((item, index) => (
                       <li class="flex items-center gap-4 py-4">
                         <img
-                          src={`http://127.0.0.1:8000/api/menu/${item.gambar}`}
+                          src={`https://harjos.draf.app/api/menu/${item.gambar}`}
                           alt=""
                           class="h-16 w-16 rounded object-cover"
                         />

@@ -8,7 +8,7 @@ export default function DetailMenu() {
   const { id } = useParams();
   const [products, setProducts] = useState([]);
   const getProductData = async () => {
-    const response = await fetch(`http://127.0.0.1:8000/api/menu/${id}`);
+    const response = await fetch(`https://harjos.draf.app/api/menu/${id}`);
     const data = await response.json();
     setProducts(data.data);
   };
@@ -46,7 +46,7 @@ export default function DetailMenu() {
             <div className="">
               <img
                 alt="Les Paul"
-                src={`http://127.0.0.1:8000/api/menu/${products.gambar}`}
+                src={`https://harjos.draf.app/api/menu/${products.gambar}`}
                 className=" w-full rounded-xl object-cover"
               />
             </div>

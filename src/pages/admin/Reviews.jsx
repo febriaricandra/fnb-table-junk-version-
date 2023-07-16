@@ -3,7 +3,7 @@ import React from "react";
 export default function Reviews() {
   const [reviews, setReviews] = React.useState([]);
   const getReviews = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/reviews");
+    const response = await fetch("https://harjos.draf.app/api/reviews");
     const data = await response.json();
     setReviews(data.data);
   };

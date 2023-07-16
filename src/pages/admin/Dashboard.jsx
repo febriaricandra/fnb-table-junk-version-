@@ -28,13 +28,13 @@ export default function Dashboard() {
   };
 
   const getProductData = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/menu");
+    const response = await fetch("https://harjos.draf.app/api/menu");
     const data = await response.json();
     setProductData(data.data);
   };
 
   const deleteProduct = async (id) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/menu/${id}`, {
+    const response = await fetch(`https://harjos.draf.app/api/menu/${id}`, {
       method: "DELETE",
     });
     const data = await response.json();
@@ -122,7 +122,7 @@ export default function Dashboard() {
                       <td className="px-4 py-3 text-sm">{product.harga}</td>
                       <td className="px-4 py-3 text-sm">
                         <img
-                          src={`http://127.0.0.1:8000/api/menu/${product.gambar}`}
+                          src={`https://harjos.draf.app/api/menu/${product.gambar}`}
                           alt={product.nama}
                           className="w-20 h-20 object-cover"
                         />

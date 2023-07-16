@@ -2,7 +2,7 @@ import React from "react";
 import Swal from "sweetalert2";
 
 export default function FormProduct() {
-  const url = "http://127.0.0.1:8000/api/menu";
+  const url = "https://harjos.draf.app/api/menu";
   const [image, setImage] = React.useState(null);
   const handleImageUpload = (e) => {
     setImage(e.target.files[0]);

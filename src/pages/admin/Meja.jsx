@@ -12,7 +12,7 @@ export default function Meja() {
   };
 
   const getMeja = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/meja", {
+    const response = await fetch("https://harjos.draf.app/api/meja", {
       method: "GET",
     });
     const data = await response.json();
@@ -21,7 +21,7 @@ export default function Meja() {
 
   const GenerateQRCode = () => {
     QRCode.toDataURL(
-      `http://192.168.61.88:3000/${nomorMeja}/menu`,
+      `https://fnb-table.vercel.app/${nomorMeja}/menu`,
       {
         width: 300,
         height: 300,
@@ -38,7 +38,7 @@ export default function Meja() {
   };
 
   const deleteMeja = (id) => {
-    fetch(`http://127.0.0.1:8000/api/meja/${id}`, {
+    fetch(`https://harjos.draf.app/api/meja/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -69,7 +69,7 @@ export default function Meja() {
     };
     console.log(JSON.stringify(formData));
     //qr code to database
-    fetch("http://127.0.0.1:8000/api/meja", {
+    fetch("https://harjos.draf.app/api/meja", {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {

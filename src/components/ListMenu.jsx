@@ -4,7 +4,7 @@ export default function ListMenu({ product }) {
   return (
     <div className="flex flex-row items-center gap-4 p-4">
       <img
-        src={`http://127.0.0.1:8000/api/menu/${product.gambar}`}
+        src={`https://harjos.draf.app/api/menu/${product.gambar}`}
         alt={product.nama}
         className="w-20 h-20 object-cover"
       />

@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 export default function Orders() {
   const [orderData, setOrderData] = React.useState([]);
   const getOrderData = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/orders", {
+    const response = await fetch("https://harjos.draf.app/api/orders", {
       method: "GET",
     });
     const data = await response.json();
@@ -16,7 +16,7 @@ export default function Orders() {
     const formData = {
       status: "confirmed",
     };
-    fetch(`http://127.0.0.1:8000/api/orders/confirm/${id}`, {
+    fetch(`https://harjos.draf.app/api/orders/confirm/${id}`, {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {

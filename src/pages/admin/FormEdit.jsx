@@ -3,20 +3,19 @@ import Swal from "sweetalert2";
 import { useParams,useNavigate } from 'react-router-dom';
 
 function FormEdit() {
-    const url = "http://127.0.0.1:8000/api/menu/";
     const [productData, setProductData] = useState([]);
     const [formData, setFormData] = useState();
     const navigate = useNavigate();
     const { id } = useParams();
     const getMenuById = async () => {
-        const response = await fetch(`http://127.0.0.1:8000/api/menu/${id}`);
+        const response = await fetch(`https://harjos.draf.app/api/menu/${id}`);
         const data = await response.json();
         setProductData(data.data);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`http://127.0.0.1:8000/api/menu/${id}`, {
+        fetch(`https://harjos.draf.app/api/menu/${id}`, {
           method: "PUT",
           body: JSON.stringify(formData),
           headers: {
