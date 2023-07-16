@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ListMenu({product}) {
+export default function ListMenu({ product }) {
   return (
     <div className="flex flex-row items-center gap-4 p-4">
       <img
@@ -9,7 +9,15 @@ export default function ListMenu({product}) {
         className="w-20 h-20 object-cover"
       />
       <div className="flex flex-col">
-        <span className="text-sm ">{product.status}</span>
+        {product.status === "Tersedia" ? (
+          <span className="inline-flex w-1/2 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            {product.status}
+          </span>
+        ) : (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+            {product.status}
+          </span>
+        )}
         <span className="text-xl font-medium">{product.nama}</span>
         <span className="text-md font-medium">Rp. {product.harga}</span>
       </div>

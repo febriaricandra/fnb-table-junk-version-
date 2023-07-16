@@ -1,21 +1,49 @@
 import React from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { useNavigate,useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { removeAllItem } from "../redux/cartSlice";
-
+import { Link } from "react-router-dom";
 
 export default function Order() {
   const cart = useSelector((state) => state.cart);
-  const { menuId } = useParams();
+  const [nama, setNama] = React.useState("");
+  const [status, setStatus] = React.useState("pending");
+  const url = "http://127.0.0.1:8000/api/orders";
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const menuId = localStorage.getItem("menuId");
+  const meja = parseInt(menuId);
   const total = localStorage.getItem("total");
   const handleOrder = (e) => {
     e.preventDefault();
-    localStorage.clear();
-    dispatch(removeAllItem());
-    navigate(`/${menuId}/menu`);
-    };
+    cart.forEach((item) => {
+      const data = {
+        menu_id: item.id,
+        meja_id: meja,
+        nama_customer: nama,
+        jumlah: item.quantity,
+        total: total,
+        status: status,
+      };
+      console.log(JSON.stringify(data));
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          dispatch(removeAllItem());
+        })
+        .catch((err) => console.log(err));
+    });
+    navigate("/section");
+  };
+
+  console.log(menuId);
 
   return (
     <div className="bg-slate-300 w-full">
@@ -27,7 +55,7 @@ export default function Order() {
               <div class="mx-auto pt-[44px] space-y-8 px-4 lg:px-8">
                 <div class="flex items-center gap-4">
                   <span class="h-10 w-10 rounded-full bg-blue-700"></span>
-                  <h2 class="font-medium text-gray-900">Meja {menuId}</h2>
+                  <h2 class="font-medium text-gray-900">{`meja: ${menuId}`}</h2>
                 </div>
                 <div>
                   <p class="text-2xl font-medium tracking-tight text-gray-900">
@@ -36,35 +64,35 @@ export default function Order() {
                   <p class="mt-1 text-sm text-gray-600">For the purchase of</p>
                   <ul class="my-4 divide-y divide-gray-100">
                     {cart.map((item, index) => (
-                    <li class="flex items-center gap-4 py-4">
-                      <img
-                        src={item.image}
-                        alt=""
-                        class="h-16 w-16 rounded object-cover"
-                      />
+                      <li class="flex items-center gap-4 py-4">
+                        <img
+                          src={`http://127.0.0.1:8000/api/menu/${item.gambar}`}
+                          alt=""
+                          class="h-16 w-16 rounded object-cover"
+                        />
 
-                      <div>
-                        <h3 class="text-sm text-gray-900">{item.name}</h3>
+                        <div>
+                          <h3 class="text-sm text-gray-900">{item.nama}</h3>
 
-                        <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
-                          <div>
-                            <dt class="inline">Harga:</dt>
-                            <dd class="inline">{item.price}</dd>
-                          </div>
+                          <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
+                            <div>
+                              <dt class="inline">Harga:</dt>
+                              <dd class="inline">{item.harga}</dd>
+                            </div>
 
-                          <div>
-                            <dt class="inline">Quantity:</dt>
-                            <dd class="inline">{item.quantity}</dd>
-                          </div>
+                            <div>
+                              <dt class="inline">Quantity:</dt>
+                              <dd class="inline">{item.quantity}</dd>
+                            </div>
 
-                          <div>
-                            <dt class="inline">Kategori:</dt>
-                            <dd class="inline">{item.category}</dd>
-                          </div>
-                        </dl>
-                      </div>
-                    </li>)
-                    )}
+                            <div>
+                              <dt class="inline">Kategori:</dt>
+                              <dd class="inline">{item.kategori}</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -74,37 +102,36 @@ export default function Order() {
                 <form class="grid grid-cols-6 gap-4 my-2">
                   <div class="col-span-6">
                     <label
-                      for="Nama"
+                      for="nama_customer"
                       class="block text-xs font-medium text-gray-700"
                     >
                       Nama
                     </label>
                     <input
-                      type="email"
-                      id="Email"
+                      type="text"
+                      id="nama_customer"
+                      name="nama_customer"
+                      onChange={(e) => setNama(e.target.value)}
                       class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
                     />
                   </div>
                   <div class="col-span-6">
-                    <label
-                      for="Phone"
-                      class="block text-xs font-medium text-gray-700"
+                    <button
+                      onClick={handleOrder}
+                      class="block w-full rounded-md bg-blue-500 my-2 p-2.5 text-sm text-white transition hover:shadow-lg"
                     >
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      id="Phone"
-                      class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
-                    />
-                  </div>
-                  <div class="col-span-6">
-                    <button onClick={handleOrder} class="block w-full rounded-md bg-blue-500 my-2 p-2.5 text-sm text-white transition hover:shadow-lg">
                       Order
                     </button>
-                    <button class="block w-full rounded-md bg-red-500 my-2 p-2.5 text-sm text-white transition hover:shadow-lg">
+                    <Link
+                      to=""
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(-1);
+                      }}
+                      class="block text-center w-full rounded-md bg-red-500 my-2 p-2.5 text-sm text-white transition hover:shadow-lg"
+                    >
                       Kembali
-                    </button>
+                    </Link>
                   </div>
                 </form>
               </div>

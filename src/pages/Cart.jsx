@@ -21,7 +21,7 @@ export default function Cart() {
     }
 
     const handleCheckout = () => {
-        navigate('/menu/order');
+        navigate('/order');
         localStorage.setItem('total', total);
     }
 

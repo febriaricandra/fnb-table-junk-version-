@@ -33,6 +33,17 @@ export default function Dashboard() {
     setProductData(data.data);
   };
 
+  const deleteProduct = async (id) => {
+    const response = await fetch(`http://127.0.0.1:8000/api/menu/${id}`, {
+      method: "DELETE",
+    });
+    const data = await response.json();
+    //if success reload page
+    if (data) {
+      getProductData();
+    }
+  };
+
   React.useEffect(() => {
     getProductData();
   }, []);
@@ -76,13 +87,14 @@ export default function Dashboard() {
               </div>
               <div>
                 <Link
-                to="/admin/add-product"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
+                  to="/admin/add-product"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                >
                   Add Product
                 </Link>
               </div>
             </div>
-            <table className='class="w-full whitespace-no-wrap my-2'>
+            <table className="w-full whitespace-no-wrap my-2">
               <thead className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <tr>
                   <td className="px-4 py-3">id</td>
@@ -92,41 +104,57 @@ export default function Dashboard() {
                   <td className="px-4 py-3">Deskripsi</td>
                   <td className="px-4 py-3">Status</td>
                   <td className="px-4 py-3">Stok</td>
+                  <td className="px-4 py-3">Kategori</td>
                   <td className="px-4 py-3">Rating</td>
                   <td className="px-4 py-3">Action</td>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 text-gray-700 dark:text-gray-400">
-                {productData.map((product) => (
+                {productData ? (
+                  productData.map((product) => (
+                    <tr>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center text-sm">
+                          {product.id}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm">{product.nama}</td>
+                      <td className="px-4 py-3 text-sm">{product.harga}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <img
+                          src={`http://127.0.0.1:8000/api/menu/${product.gambar}`}
+                          alt={product.nama}
+                          className="w-20 h-20 object-cover"
+                        />
+                      </td>
+                      <td className="px-4 py-3 text-sm">{product.deskripsi}</td>
+                      <td className="px-4 py-3 text-sm">{product.status}</td>
+                      <td className="px-4 py-3 text-sm">{product.stok}</td>
+                      <td className="px-4 py-3 text-sm">{product.kategori}</td>
+                      <td className="px-4 py-3 text-sm">{product.rating}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <Link
+                          to={`/admin/edit-product/${product.id}`}
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => deleteProduct(product.id)}
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
                   <tr>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center text-sm">
-                        {product.id}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-sm">{product.nama}</td>
-                    <td className="px-4 py-3 text-sm">{product.harga}</td>
-                    <td className="px-4 py-3 text-sm">
-                      <img
-                        src={`http://127.0.0.1:8000/api/menu/${product.gambar}`}
-                        alt={product.nama}
-                        className="w-20 h-20 object-cover"
-                      />
-                    </td>
-                    <td className="px-4 py-3 text-sm">{product.deskripsi}</td>
-                    <td className="px-4 py-3 text-sm">{product.status}</td>
-                    <td className="px-4 py-3 text-sm">{product.stok}</td>
-                    <td className="px-4 py-3 text-sm">{product.rating}</td>
-                    <td className="px-4 py-3 text-sm">
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Edit
-                      </button>
-                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Delete
-                      </button>
+                    <td colSpan="10" className="text-center py-4">
+                      Data Kosong
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

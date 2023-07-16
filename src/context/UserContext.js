@@ -12,12 +12,12 @@ const AuthProvider = ({ children }) => {
   const login = (data) => {
     localStorage.setItem("token", data);
     setUser(data);
+    navigate("/admin");
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem("token", data);
-    localStorage.removeItem("role");
     navigate("/");
     setUser(null);
     setIsAuthenticated(false);

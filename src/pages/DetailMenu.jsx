@@ -54,11 +54,21 @@ export default function DetailMenu() {
             <div className="sticky top-0">
               <div className="mt-8 flex flex-col">
                 <div className="max-w-[35ch] space-y-2">
+                  {products.status === "Tersedia" ? (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      {products.status}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      {products.status}
+                    </span>
+                  )}
                   <h1 className="text-xl font-bold sm:text-2xl">
                     {products.nama}
                   </h1>
                 </div>
                 <span className="opacity-50">{products.kategori}</span>
+                <span className="opacity-50">stok: {products.stok}</span>
                 <p className="text-lg font-bold">${products.harga}</p>
               </div>
 
@@ -89,14 +99,24 @@ export default function DetailMenu() {
                       -
                     </button>
                   </div>
-
-                  <button
-                    type="submit"
-                    onClick={handleAddToCart}
-                    className="block rounded bg-green-600 px-5 py-3 text-xs font-medium text-white hover:bg-green-500"
-                  >
-                    Add to Cart
-                  </button>
+                  {products.stok > 0 && products.status === "Tersedia" ? (
+                    <button
+                      type="submit"
+                      onClick={handleAddToCart}
+                      className="block rounded bg-green-600 px-5 py-3 text-xs font-medium text-white hover:bg-green-500"
+                    >
+                      Add to Cart
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      onClick={handleAddToCart}
+                      disabled
+                      className="block rounded bg-gray-600 px-5 py-3 text-xs font-medium text-white hover:bg-gray-500"
+                    >
+                      Add to Cart
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

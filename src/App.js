@@ -12,25 +12,91 @@ import Orders from "./pages/admin/Orders";
 import Reviews from "./pages/admin/Reviews";
 import Barcode from "./pages/admin/Barcode";
 import FormProduct from "./pages/admin/FormProduct";
+import FormEdit from "./pages/admin/FormEdit";
+import Meja from "./pages/admin/Meja";
+import Protected from "./middleware/Protected";
+import Review from "./pages/Review";
+import Pivot from "./pages/Pivot";
 // import Profit from "./pages/Profit";
 // import { AuthProvider } from "./context/UserContext";
 
 function App() {
+  const [meja, setMeja] = React.useState([]);
+  const getMeja = async () => {
+    const response = await fetch("http://127.0.0.1:8000/api/meja");
+    const data = await response.json();
+    setMeja(data.data);
+  };
+
+  React.useEffect(() => {
+    getMeja();
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<Outlet />}>
-        <Route index path=":menuId/menu" element={<Menu />} exact />
+        {meja.map((item) => (
+          <Route
+            index
+            path={`${item.nomor_meja}/menu`}
+            element={<Menu />}
+            exact
+          />
+        ))}
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id" element={<DetailMenu />} />
-        <Route path="/menu/order" element={<Order />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/review" element={<Review />} />
+        <Route path="/section" element={<Pivot />} />
       </Route>
       <Route path="/admin" element={<Layout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="profit" element={<Orders />} />
-        <Route path="reviews" element={<Reviews />} />
-        <Route path="barcode" element={<Barcode />} />
-        <Route path="add-product" element={<FormProduct />} />
+        <Route
+          index
+          element={
+            <Protected>
+              <Dashboard />
+            </Protected>
+          }
+        />
+        <Route
+          path="orders"
+          element={
+            <Protected>
+              <Orders />
+            </Protected>
+          }
+        />
+        <Route
+          path="meja"
+          element={
+            <Protected>
+              <Meja />
+            </Protected>
+          }
+        />
+        <Route
+          path="reviews"
+          element={
+            <Protected>
+              <Reviews />
+            </Protected>
+          }
+        />
+        <Route
+          path="add-product"
+          element={
+            <Protected>
+              <FormProduct />
+            </Protected>
+          }
+        />
+        <Route
+          path="edit-product/:id"
+          element={
+            <Protected>
+              <FormEdit />
+            </Protected>
+          }
+        />
       </Route>
       <Route path="/login" element={<Login />} />
 

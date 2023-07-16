@@ -3,16 +3,21 @@ import ListMenu from '../components/ListMenu'
 import Navbar from '../components/Navbar'
 import Tabs from '../components/Tabs'
 // import { productData } from '../context/data'
-import { Link } from 'react-router-dom'
+import { Link,useLocation } from 'react-router-dom'
 
 export default function Menu() {
-    const [activeTab, setActiveTab] = React.useState('foods')
-    const handleFood = () => setActiveTab('foods')
-    const handleDrink = () => setActiveTab('drinks')
+    const location = useLocation();
+    const nomorMeja = location.pathname.split('/')[1];
+    localStorage.setItem('location', location.pathname);
+    console.log(location);
+    const [activeTab, setActiveTab] = React.useState('Makanan')
+    const handleFood = () => setActiveTab('Makanan')
+    const handleDrink = () => setActiveTab('Minuman')
     const [productData, setProductData] = React.useState([])
     const getProductData = async () => {
         const response = await fetch('http://127.0.0.1:8000/api/menu')
         const data = await response.json()
+        localStorage.setItem('menuId', nomorMeja);
         setProductData(data.data)
     }
     React.useEffect(() => {
@@ -20,6 +25,7 @@ export default function Menu() {
     }, [])
 
     console.log(productData);
+    console.log(nomorMeja);
 
 
   return (
@@ -30,17 +36,15 @@ export default function Menu() {
             <Tabs handleFood={handleFood} handleDrink={handleDrink} activeTab={activeTab} />
             </div>
             <div className='overflow-y-auto'>
-            {productData.map((product) => {
-                if (product.kategori === activeTab) {
-                    return (
-                        <Link to={`/product/${product.id}`} key={product.id}>
-                            <ListMenu product={product} />
-                        </Link>
-                    )
-                }
-                return null;
-            })
-            }
+                {productData.map((product) => {
+                    if (product.kategori === activeTab) {
+                        return (
+                            <Link to={`/product/${product.id}`}>
+                                <ListMenu key={product.id} product={product} />
+                            </Link>
+                        )
+                    }
+                })}
             </div>
         </div>
     </div>

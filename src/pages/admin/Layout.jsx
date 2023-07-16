@@ -1,6 +1,7 @@
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import { AlignJustify } from "lucide-react";
+import Swal from "sweetalert2";
 
 const routes = [
   {
@@ -14,22 +15,16 @@ const routes = [
     name: "Orders",
   },
   {
-    path: "/admin/profit",
+    path: "/admin/meja",
     icon: <AlignJustify size={24} />,
-    name: "Profit",
+    name: "Meja",
   },
   {
     path: "/admin/reviews",
     icon: <AlignJustify size={24} />,
     name: "Reviews",
   },
-  {
-    path: "/admin/barcode",
-    icon: <AlignJustify size={24} />,
-    name: "Barcode",
-  },
 ];
-
 function SideMenu({ title, icon, route }) {
   return (
     <li className="relative px-6 py-3">
@@ -46,6 +41,18 @@ function SideMenu({ title, icon, route }) {
 }
 
 export default function Layout() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+    Swal.fire({
+      icon: "success",
+      title: "Logout success",
+      showConfirmButton: true,
+      timer: 1500,
+    });
+  };
+
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900 false">
       <aside className="z-30 flex-shrink-0 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 lg:block">
@@ -68,7 +75,18 @@ export default function Layout() {
           </ul>
         </div>
       </aside>
-      <div className="flex flex-col flex-1 w-full">
+      <div className="flex flex-col flex-1 w-full" id="main-layout">
+        <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
+          <div className="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+            <div></div>
+            <button
+              onClick={handleLogout}
+              className="align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none px-4 py-2 rounded-lg text-sm text-white bg-purple-600 border border-transparent active:bg-purple-600 hover:bg-purple-700 focus:shadow-outline-purple"
+            >
+              Logout
+            </button>
+          </div>
+        </header>
         <Outlet />
       </div>
     </div>
