@@ -41,13 +41,13 @@ export default function DetailMenu() {
     <div className="bg-slate-300 w-full h-screen">
       <div className="container mx-auto max-w-[375px] border-solid bg-white h-screen flex flex-col">
         <NavMenu />
-        <div className="relative mx-auto max-w-screen-xl">
+        <div className="w-full relative mx-auto max-w-screen-xl">
           <div className="p-2.5">
             <div className="">
               <img
                 alt="Les Paul"
                 src={`https://harjos.draf.app/api/menu/${products.gambar}`}
-                className=" w-full rounded-xl object-cover"
+                className="w-64 mx-auto rounded-xl object-cover"
               />
             </div>
 
